@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MasterMind COURSE | AI E-Learning</title>
+    <!-- Modern font: Inter as requested, adding Playfair Display for MasterMind -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="C:/Users/VK/.gemini/antigravity/brain/367ba428-d2e4-4ad4-bddb-cae1e191ee1b/image_15_1773035351058.png">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#0f172a">
+</head>
+<body>
+    <!-- Cyber Progress Bar (Top) -->
+    <div id="cyber-progress-bar"></div>
+    
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+    
+    <!-- Auth Loading Overlay (Shown during session check) -->
+    <div id="auth-loading" class="auth-loading-overlay">
+        <img src="C:/Users/VK/.gemini/antigravity/brain/367ba428-d2e4-4ad4-bddb-cae1e191ee1b/image_15_1773035351058.png" alt="MasterMind LOGO" class="auth-loading-logo cyber-pulse">
+        <p>Verifying Session...</p>
+    </div>
+    
+    <!-- Selective Auth Gating Modal -->
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-panel" style="max-width: 400px; text-align: center;">
+            <img src="C:/Users/VK/.gemini/antigravity/brain/367ba428-d2e4-4ad4-bddb-cae1e191ee1b/image_15_1773035351058.png" alt="MasterMind LOGO" style="width: 60px; height: 60px; border-radius: 12px; margin-bottom: 20px;">
+            <h3 style="color: var(--text-primary); margin-bottom: 12px; font-family: 'Playfair Display', serif;">Login to Continue</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 15px;">You need an active MasterMind account to enroll in and access premium course content.</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button class="btn btn-outline" onclick="closeAuthModal()" style="flex: 1;">Cancel</button>
+                <button class="btn btn-primary cyber-btn" onclick="redirectToLogin()" style="flex: 1;">Go to Login</button>
+            </div>
+        </div>
+    </div>
+    <!-- 5 Second MasterMind Bumper Intro -->
+    <div id="intro-bumper" class="bumper-overlay">
+        <!-- Deep blue matrix/brainwave pattern background -->
+        <div class="bumper-bg-pattern"></div>
+        <div class="bumper-content">
+            <div class="bumper-logo-formation">
+                <!-- Image directly is better, but since it's asked to animate pieces, using the generated static image for the final, and CSS parts for intro -->
+                <div class="bumper-blue-base"></div>
+                <div class="bumper-monitor-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    <!-- Glowing network node element -->
+                    <div class="bumper-cyber-brain"></div>
+                </div>
+                <!-- Alternate: If applying the generated image as a fade in at second 5 -->
+                <img src="C:/Users/VK/.gemini/antigravity/brain/367ba428-d2e4-4ad4-bddb-cae1e191ee1b/image_15_1773035351058.png" class="bumper-final-logo" alt="MasterMind Logo" />
+            </div>
+            <div class="bumper-typography">
+                <div class="bumper-mastermind">MasterMind</div>
+                <div class="bumper-course">COURSE</div>
+            </div>
+            <!-- Skip Intro Escape Hatch -->
+            <button id="skip-intro-btn" style="position: absolute; bottom: 30px; right: 30px; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); padding: 8px 16px; border-radius: 4px; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.3s ease; z-index: 10001; font-size: 14px;" onmouseover="this.style.color='#fff'; this.style.borderColor='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.style.borderColor='rgba(255,255,255,0.2)'">Skip Intro</button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Navigation Sidebar / Bottom Bar -->
+        <nav class="glass-nav">
+            <div class="logo">
+                <div class="logo-icon-wrapper">
+                    <img src="C:/Users/VK/.gemini/antigravity/brain/367ba428-d2e4-4ad4-bddb-cae1e191ee1b/image_15_1773035351058.png" alt="Logo" style="max-height: 44px; width: auto; border-radius: 50%;" />
+                </div>
+                <h2>MasterMind <span>COURSE</span></h2>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item active" data-target="home" onclick="switchTab('home')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>Home</span>
+                </li>
+                <li class="nav-item" data-target="login" onclick="switchTab('login')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+                    <span>Login</span>
+                </li>
+                <li class="nav-item" data-target="settings" onclick="switchTab('settings')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <header class="top-bar">
+                <div class="greeting">
+                    <h1 id="page-title">Discover Courses</h1>
+                    <p class="subtitle" id="page-subtitle">Elevate your skills today.</p>
+                </div>
+                <div class="top-actions">
+                    <button class="icon-btn sync-btn" id="sync-btn" onclick="syncData()" title="Refresh Data">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <div class="views-container">
+                <!-- Home View -->
+                <section id="home" class="view active">
+                    <!-- Slideshow Carousel -->
+                    <div class="carousel-container">
+                        <div class="carousel" id="thumbnail-carousel">
+                            <!-- Thumbnails populated by JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="section-header">
+                        <h3 class="section-title">Available Courses</h3>
+                    </div>
+                    <div class="course-grid" id="course-catalog">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Login / Profile View -->
+                <section id="login" class="view">
+                            <!-- Hero Image -->
+                            <div class="login-hero-img" id="login-hero-img"></div>
+                            <!-- Right Side: Cyber-Retro Auth Form -->
+                            <div class="login-form-container glass-panel">
+                                <!-- Auth State Info -->
+                                <div id="auth-status-panel" class="hidden" style="text-align:center; padding: 20px;">
+                                    <h3 style="color:var(--text-primary); margin-bottom:12px;">Welcome Back!</h3>
+                                    <p style="color:var(--text-secondary); margin-bottom:24px;">You are currently logged in.</p>
+                                    <button class="btn btn-outline" onclick="window.supabaseApi.signOut()" style="width: 100%;">Sign Out</button>
+                                </div>
+
+                                <!-- Login Form -->
+                                <div id="auth-login-panel">
+                                    <div class="login-brand" style="margin-bottom: 24px;">
+                                        <img src="C:/Users/VK/.gemini/antigravity/brain/367ba428-d2e4-4ad4-bddb-cae1e191ee1b/image_15_1773035351058.png" alt="Log In Logo" style="width: 60px; height: 60px; margin-bottom: 12px; border-radius: 12px; border: 1px solid var(--accent-indigo);">
+                                        <h3 style="font-family: 'Playfair Display', serif; color: var(--text-primary);">Log in to MasterMind</h3>
+                                    </div>
+                                    
+                                    <div class="auth-providers" style="display: flex; justify-content: center; margin-top: 30px;">
+                                        <button class="btn btn-outline google-btn cyber-btn" onclick="handleGoogleLogin()" style="width: 100%; max-width: 300px; padding: 16px; display: flex; justify-content: center; align-items: center; gap: 12px; font-size: 16px; border-radius: 12px;">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                                            Continue with Google
+                                        </button>
+                                    </div>
+                                    
+                                    <p class="login-terms" style="font-size: 13px; color: var(--text-secondary); margin-top: 36px; text-align: center;">
+                                        By building your profile, you agree to our <a href="#" onclick="switchTab('terms')" style="color: var(--accent-indigo);">Terms of Service</a>.
+                                    </p>
+                                </div>
+                            </div>
+                    </div>
+                </section>
+
+                <!-- Settings View -->
+                <section id="settings" class="view">
+                    <div class="settings-wrapper">
+
+                        <!-- === PUBLIC SETTINGS (Always Visible) === -->
+                        <div class="public-settings fade-in">
+                            <div class="settings-card">
+                                <h4 class="settings-section-title">Public Configuration</h4>
+                                
+                                <div class="setting-row">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Appearance (Dark Mode)</span>
+                                        <span class="setting-desc">Switch interface to the dark theme.</span>
+                                    </div>
+                                    <label class="shad-switch">
+                                        <input type="checkbox" id="toggle-theme">
+                                        <span class="shad-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="divider-subtle"></div>
+
+                                <div class="setting-row link-row">
+                                    <span class="setting-label">App Version</span>
+                                    <span class="setting-value">v1.2.4 Beta</span>
+                                </div>
+                                
+                                <div class="divider-subtle"></div>
+                                
+                                <div class="setting-row link-row" onclick="switchTab('terms')">
+                                    <span class="setting-label"><a href="#" class="no-style-link">Terms of Service</a></span>
+                                    <span class="setting-value">❯</span>
+                                </div>
+
+                                <div class="divider-subtle"></div>
+                                
+                                <div class="setting-row link-row" onclick="switchTab('about')">
+                                    <span class="setting-label"><a href="#" class="no-style-link">About the Course Platform</a></span>
+                                    <span class="setting-value">❯</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- === CONDITIONAL AUTH WRAPPER === -->
+                        <div id="private-settings-container">
+                            
+                            <!-- State: Guest Call-To-Action (Hidden if Auth) -->
+                            <div id="guest-login-card" class="settings-card guest-cta-card hidden">
+                                <div class="cta-icon">🎓</div>
+                                <h3>Want to track your progress?</h3>
+                                <p>Unlock gamification, private settings, and course progress by logging into your account.</p>
+                                <button class="btn btn-primary" onclick="switchTab('login')">Log In to Track Progress</button>
+                            </div>
+
+                            <!-- State: Private Settings (Hidden if Guest) -->
+                            <div id="private-settings-block" class="hidden">
+                                <!-- Profile Header Card -->
+                                <div class="settings-card profile-card-minimal hover-interactive">
+                                    <div class="profile-main-info">
+                                        <div class="profile-avatar-letters shadow-sm" id="profile-avatar" style="background-color: var(--accent-indigo);">??</div>
+                                        <div>
+                                            <h3 class="profile-name" id="profile-name">...</h3>
+                                            <span class="profile-badge">Student</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline btn-sm logout-btn" onclick="logoutUser()">Log out</button>
+                                </div>
+
+                                <!-- Gamification Dashboard -->
+                                <div class="settings-card gamification-card">
+                                    <h4 class="settings-section-title gradient-text">Your Dashboard</h4>
+                                    <div class="gamification-stats">
+                                        <div class="stat-item pulse-hover">
+                                            <div class="stat-value" id="gami-points">0</div>
+                                            <div class="stat-label">Total XP</div>
+                                        </div>
+                                        <div class="stat-divider"></div>
+                                        <div class="stat-item pulse-hover">
+                                            <div class="stat-value" id="gami-streak">0 🔥</div>
+                                            <div class="stat-label">Day Streak</div>
+                                        </div>
+                                        <div class="stat-divider"></div>
+                                        <div class="stat-item pulse-hover">
+                                            <div class="stat-value" id="gami-courses">0</div>
+                                            <div class="stat-label">Completed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Account Settings -->
+                                <div class="settings-card">
+                                    <h4 class="settings-section-title">Account Verification</h4>
+                                    
+                                    <div class="setting-row">
+                                        <div class="setting-info">
+                                            <span class="setting-label">Linked Gmail</span>
+                                        </div>
+                                        <span class="setting-value badge-linked" id="account-email">Not linked</span>
+                                    </div>
+                                    
+                                    <div class="divider-subtle"></div>
+                                    
+                                    <div class="setting-row">
+                                        <div class="setting-info">
+                                            <span class="setting-label">Mobile OTP</span>
+                                        </div>
+                                        <span class="setting-value badge-linked" id="account-phone">Not linked</span>
+                                    </div>
+                                </div>
+
+                                <!-- Course Preferences -->
+                                <div class="settings-card">
+                                    <h4 class="settings-section-title">Study Preferences</h4>
+                                    
+                                    <div class="setting-row">
+                                        <div class="setting-info">
+                                            <span class="setting-label">Daily Study Reminders</span>
+                                            <span class="setting-desc">Push notifications to continue streak.</span>
+                                        </div>
+                                        <label class="shad-switch">
+                                            <input type="checkbox" id="toggle-reminders" checked>
+                                            <span class="shad-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="divider-subtle"></div>
+                                    
+                                    <div class="setting-row">
+                                        <div class="setting-info">
+                                            <span class="setting-label">Offline Mode</span>
+                                            <span class="setting-desc">Pre-download lessons on Wi-Fi.</span>
+                                        </div>
+                                        <label class="shad-switch">
+                                            <input type="checkbox" id="toggle-offline">
+                                            <span class="shad-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Notifications -->
+                                <div class="settings-card">
+                                    <h4 class="settings-section-title">Notifications</h4>
+                                    
+                                    <div class="setting-row">
+                                        <div class="setting-info">
+                                            <span class="setting-label">New Course Announcements</span>
+                                            <span class="setting-desc">Emails standard drops.</span>
+                                        </div>
+                                        <label class="shad-switch">
+                                            <input type="checkbox" id="toggle-announcements" checked>
+                                            <span class="shad-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="divider-subtle"></div>
+                                    
+                                    <div class="setting-row">
+                                        <div class="setting-info">
+                                            <span class="setting-label">Instructor Messages</span>
+                                            <span class="setting-desc">Replies from course teachers.</span>
+                                        </div>
+                                        <label class="shad-switch">
+                                            <input type="checkbox" id="toggle-messages" checked>
+                                            <span class="shad-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Course Detail View -->
+                <section id="course-detail" class="view">
+                    <!-- Nav button to go back to home -->
+                    <button class="btn btn-outline back-btn" onclick="switchTab('home')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>
+                        Back
+                    </button>
+                    
+                    <div id="course-detail-content">
+                        <!-- Content injected by JS -->
+                    </div>
+                </section>
+                
+                <!-- Terms of Service View -->
+                <section id="terms" class="view">
+                    <button class="btn btn-outline back-btn" onclick="switchTab('settings')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>
+                        Back to Settings
+                    </button>
+                    
+                    <div class="terms-wrapper">
+                        <div class="terms-content">
+                            <h2>MasterMind COURSE Terms of Service</h2>
+                            <p class="terms-date">Last Updated: October 2026</p>
+                            
+                            <h3>1. Acceptance of Terms</h3>
+                            <p>By accessing or using the MasterMind COURSE website, you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions outlined here, you may not access the platform or use any of its services.</p>
+                            
+                            <h3>2. Intellectual Property Rights</h3>
+                            <p>All content provided on this platform is the exclusive property of MasterMind COURSE and is protected by international copyright laws. This includes, but is not limited to:</p>
+                            <ul>
+                                <li>Video lectures, tutorials, and Masterclass bumper animations.</li>
+                                <li>Course materials, slides, and provided datasets.</li>
+                                <li>The platform's design, text, logos (including the MasterMind monitor and glowing brain asset), and visual branding elements.</li>
+                            </ul>
+                            <p>You may not reproduce, distribute, modify, create derivative works of, publicly display, or in any way exploit any of our materials without express written permission.</p>
+                            
+                            <h3>3. User Conduct</h3>
+                            <p>As a student of MasterMind COURSE, you agree to use our platform responsibly. You are strictly prohibited from:</p>
+                            <ul>
+                                <li>Sharing your account login credentials with third parties or attempting to bypass the paywall system.</li>
+                                <li>Using automated scripts, spiders, or scrapers to harvest course data or user information.</li>
+                                <li>Engaging in any conduct that restricts or inhibits anyone's use or enjoyment of the platform.</li>
+                            </ul>
+                            
+                            <h3>4. Account Registration & Security</h3>
+                            <p>To access the full course content and track your gamification progress (such as XP and streaks), you must create an account. You are responsible for maintaining the confidentiality of your account credentials (whether via Google Login or Mobile OTP) and for all activities that occur under your account.</p>
+                            
+                            <h3>5. Limitation of Liability</h3>
+                            <p>MasterMind COURSE provides educational content on an "as is" and "as available" basis. We make no warranties, expressed or implied, regarding the accuracy, reliability, or completeness of the course materials. Under no circumstances shall MasterMind COURSE be liable for any direct, indirect, incidental, or consequential damages resulting from your use of the platform.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- About the Course Platform View -->
+                <section id="about" class="view">
+                    <div class="about-wrapper">
+                        <div class="about-content">
+                            <!-- Centered Logo -->
+                            <div class="about-logo">
+                                <img src="C:/Users/VK/.gemini/antigravity/brain/367ba428-d2e4-4ad4-bddb-cae1e191ee1b/image_15_1773035351058.png" alt="MasterMind LOGO">
+                            </div>
+                            
+                            <h1>About MasterMind COURSE</h1>
+                            
+                            <h2>Our Mission</h2>
+                            <p>At MasterMind COURSE, our primary mission is to democratize advanced technology education by providing accessible, high-fidelity learning experiences to professionals across the globe. We believe that mastering foundational digital skills—ranging from AI generative paradigms to sophisticated user interface design—should not require traditional, monolithic institutions. Instead, we empower our learners through a beautifully crafted, cyber-retro environment that makes education immersive and engaging.</p>
+                            
+                            <h2>Diverse and Specialized Curriculum</h2>
+                            <p>Our curriculum is rigorously developed by industry veterans who have spearheaded projects at top-tier tech companies. Whether you are delving into the intricate mechanics of "Prompt Engineering for Designers" or studying the latest "UI/UX Design Trends," each module is designed with practical, real-world application in mind.</p>
+                            <p>We do not just provide theory; we deliver interactive assignments, dynamic video bumpers, and comprehensive gamification tracks to keep you motivated. Our platform dynamically tracks your XP, highlights your daily streak, and rewards continuous engagement. </p>
+                            
+                            <h2>Embracing the Cyber-Retro Aesthetic</h2>
+                            <p>We designed the MasterMind platform architecture to be visually striking and instantly recognizable. We opted for a deep navy and neon-teal aesthetic, ensuring every click, swipe, and pull-to-refresh action feels crisp and responsive. Our seamless integration of modern web technologies, like Service Workers for PWA functionality, guarantees that you always have access to the latest content seamlessly.</p>
+                            
+                            <h2>Community and Growth</h2>
+                            <p>Join a growing network of aspiring creators, developers, and thinkers. By enrolling in the MasterMind COURSE, you aren't just buying access to a video catalog; you are joining a dedicated community committed to pushing the boundaries of what is possible on the web. Welcome to the learning state.</p>
+                            
+                            <!-- Bottom Return Button -->
+                            <div style="text-align: center; margin-top: 40px;">
+                                <button class="btn btn-primary" onclick="switchTab('settings')" style="padding: 12px 32px; border-radius: 20px; font-weight: 600;">
+                                    Return to Settings
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Pull to Refresh Indicator -->
+            <div id="ptr-indicator">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                <span>Release to refresh</span>
+            </div>
+            
+            <!-- Sticky Glass Bottom Purchase Bar for Course Detail -->
+            <div id="purchase-bar" class="glass-bottom-bar hidden">
+                <div class="purchase-info">
+                    <span class="price">₹300</span>
+                    <span class="price-desc">Lifetime Access</span>
+                </div>
+                <button class="btn btn-primary purchase-btn" onclick="alert('Proceeding to payment gateway for ₹300...')">Buy Now</button>
+            </div>
+        </main>
+    </div> <!-- Close App Container -->
+    </div> <!-- Close App Content Wrapper -->
+    <!-- PWA Update Banner -->
+    <div id="pwa-update-banner" class="pwa-banner hidden">
+        <div class="pwa-banner-content">
+            <span class="pwa-icon">✨</span>
+            <p>New MasterMind content available!</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="location.reload()">Refresh Now</button>
+    </div>
+    
+    <!-- Scripts -->
+    <!-- 1. Supabase CDN (UMD Build) -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- 2. MasterMind Auth Setup -->
+    <script src="supabase.js"></script>
+    <!-- 3. Application Logic -->
+    <script src="app.js"></script>
+
+
+</body>
+</html>
